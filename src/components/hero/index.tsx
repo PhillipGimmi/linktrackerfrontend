@@ -11,18 +11,18 @@ interface WebGLParticleHeadProps {
 }
 
 interface Audience {
-    type: string;
-    lightColors: {
-      directionalLight1Color: number;
-      directionalLight2Color: number;
-      pointLight1Color: number;
-      pointLight2Color: number;
-    };
-    headline: string;
-    subheadline: string;
-    ctaText?: string;
-    ctaUrl?: string;
-  }
+  type: string;
+  lightColors: {
+    directionalLight1Color: number;
+    directionalLight2Color: number;
+    pointLight1Color: number;
+    pointLight2Color: number;
+  };
+  headline: string;
+  subheadline: string;
+  ctaText?: string;
+  ctaUrl?: string;
+}
 
 const WebGLParticleHead: React.FC<WebGLParticleHeadProps> = ({ defaultAudienceType }) => {
   const searchParams = useSearchParams();
@@ -65,11 +65,6 @@ const WebGLParticleHead: React.FC<WebGLParticleHeadProps> = ({ defaultAudienceTy
 
   useEffect(() => {
     const mountElement = mountRef.current;
-    if (typeof window !== 'undefined') {
-      const root = window.document.documentElement;
-      root.style.setProperty('--button-border-color', colorToHex(currentAudience.lightColors.directionalLight1Color));
-      root.style.setProperty('--neon-glow-color', colorToHex(currentAudience.lightColors.directionalLight1Color));
-    }
 
     let camera: THREE.PerspectiveCamera;
     let scene: THREE.Scene;
@@ -179,45 +174,59 @@ const WebGLParticleHead: React.FC<WebGLParticleHeadProps> = ({ defaultAudienceTy
     };
 
     const handleMouseDown = (event: MouseEvent | TouchEvent) => {
-      if ((event.target as HTMLElement).closest('.scrollChevron') || (event.target as HTMLElement).closest('.ctaButton')) return;
+      const target = event.target as HTMLElement;
+      if (
+        !mountRef.current?.contains(target) || // Ensure click is within the component
+        target.closest('.scrollChevron') || // Ignore scrollChevron clicks
+        target.closest('.ctaButton') // Ignore CTA button clicks
+      )
+        return;
+      
       setIsFading(true);
       hyperspeedRef.current = true;
     };
 
     const handleMouseUp = (event: MouseEvent | TouchEvent) => {
-        if ((event.target as HTMLElement).closest('.scrollChevron') || (event.target as HTMLElement).closest('.ctaButton')) return;
-        hyperspeedRef.current = false;
-      
-        const currentAudienceIndex = audienceData.findIndex(audience => audience.type === currentAudienceType);
-        const nextAudienceIndex = (currentAudienceIndex + 1) % audienceData.length;
-        const nextAudience = audienceData[nextAudienceIndex];
-      
-        updateLights(nextAudience);
-        setCurrentAudienceType(nextAudience.type);
-        updateURL(nextAudience.type);
-      
-        setTimeout(() => {
-          setIsFading(false);
-        }, 200); // Assuming the fade-out duration is 200ms
-      };
+      const target = event.target as HTMLElement;
+      if (
+        !mountRef.current?.contains(target) || // Ensure release is within the component
+        target.closest('.scrollChevron') || // Ignore scrollChevron clicks
+        target.closest('.ctaButton') // Ignore CTA button clicks
+      )
+        return;
+
+      hyperspeedRef.current = false;
+
+      const currentAudienceIndex = audienceData.findIndex(audience => audience.type === currentAudienceType);
+      const nextAudienceIndex = (currentAudienceIndex + 1) % audienceData.length;
+      const nextAudience = audienceData[nextAudienceIndex];
+
+      updateLights(nextAudience);
+      setCurrentAudienceType(nextAudience.type);
+      updateURL(nextAudience.type);
+
+      setTimeout(() => {
+        setIsFading(false);
+      }, 200);
+    };
 
     if (typeof window !== 'undefined') {
       init();
       animate();
       window.addEventListener('resize', onWindowResize);
-      window.addEventListener('mousedown', handleMouseDown);
-      window.addEventListener('touchstart', handleMouseDown);
-      window.addEventListener('mouseup', handleMouseUp);
-      window.addEventListener('touchend', handleMouseUp);
+      mountElement?.addEventListener('mousedown', handleMouseDown);
+      mountElement?.addEventListener('touchstart', handleMouseDown);
+      mountElement?.addEventListener('mouseup', handleMouseUp);
+      mountElement?.addEventListener('touchend', handleMouseUp);
     }
 
     return () => {
       if (typeof window !== 'undefined') {
         window.removeEventListener('resize', onWindowResize);
-        window.removeEventListener('mousedown', handleMouseDown);
-        window.removeEventListener('touchstart', handleMouseDown);
-        window.removeEventListener('mouseup', handleMouseUp);
-        window.removeEventListener('touchend', handleMouseUp);
+        mountElement?.removeEventListener('mousedown', handleMouseDown);
+        mountElement?.removeEventListener('touchstart', handleMouseDown);
+        mountElement?.removeEventListener('mouseup', handleMouseUp);
+        mountElement?.removeEventListener('touchend', handleMouseUp);
       }
       mountElement?.removeChild(renderer?.domElement);
     };
@@ -233,32 +242,32 @@ const WebGLParticleHead: React.FC<WebGLParticleHeadProps> = ({ defaultAudienceTy
         aria-live="polite"
       >
         <div style={{ maxWidth: '400px', textAlign: 'left', margin: '0 auto', color: 'white' }}>
-        <motion.h1
+          <motion.h1
             style={{ fontSize: '2.5rem', marginBottom: '1rem', fontWeight: 'bold' }}
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-        >
-        {currentAudience.headline.split(' ').map((word, index) => (
-            <React.Fragment key={`${word}-${index}`}>
-            <span>{word}</span>
-            {index < currentAudience.headline.split(' ').length - 1 && ' '}
-            </React.Fragment>
-        ))}
-        </motion.h1>
-        <motion.p
+          >
+            {currentAudience.headline.split(' ').map((word, index) => (
+              <React.Fragment key={`${word}-${index}`}>
+                <span>{word}</span>
+                {index < currentAudience.headline.split(' ').length - 1 && ' '}
+              </React.Fragment>
+            ))}
+          </motion.h1>
+          <motion.p
             style={{ fontSize: '1.2rem', fontWeight: 'bold' }}
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-        >
-        {currentAudience.subheadline.split(' ').map((word, index) => (
-            <React.Fragment key={`${word}-${index}`}>
-            <span>{word}</span>
-            {index < currentAudience.subheadline.split(' ').length - 1 && ' '}
-            </React.Fragment>
-        ))}
-        </motion.p>
+          >
+            {currentAudience.subheadline.split(' ').map((word, index) => (
+              <React.Fragment key={`${word}-${index}`}>
+                <span>{word}</span>
+                {index < currentAudience.subheadline.split(' ').length - 1 && ' '}
+              </React.Fragment>
+            ))}
+          </motion.p>
 
           {currentAudience.ctaText && currentAudience.ctaUrl && (
             <motion.a

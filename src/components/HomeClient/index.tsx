@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import WebGLParticleHead from '@/components/hero'; // Import the WebGLParticleHead component
+import WebGLParticleHead from '@/components/hero';
 import MarqueeTextComponent from '../MarqueeTextComponent';
 import { DynamicParallaxContent } from '../DynamicParallaxContent';
 import useStore from '../../store/useStore';
@@ -15,10 +15,8 @@ const HomeClient: React.FC<HomeClientProps> = ({ initialAudienceType }) => {
   const { setAudienceType } = useStore();
   const pathname = usePathname();
   const router = useRouter();
-
   const [currentAudienceType, setCurrentAudienceType] = useState<string>(initialAudienceType);
 
-  // Set the audience type based on the pathname
   useEffect(() => {
     const pathAudience = pathname.split('/')[1];
     const decodedAudience = pathAudience ? pathAudience.replace(/-/g, ' ') : initialAudienceType;
@@ -26,7 +24,6 @@ const HomeClient: React.FC<HomeClientProps> = ({ initialAudienceType }) => {
     setAudienceType(decodedAudience);
   }, [pathname, initialAudienceType, setAudienceType]);
 
-  // Handle audience change from MarqueeTextComponent
   const handleAudienceChange = useCallback(
     (newAudience: string | null) => {
       if (newAudience) {
@@ -41,13 +38,10 @@ const HomeClient: React.FC<HomeClientProps> = ({ initialAudienceType }) => {
 
   return (
     <div className="font-poppins">
-      {/* Updated WebGLParticleHead to only pass the defaultAudienceType prop */}
-      <WebGLParticleHead
-        defaultAudienceType={currentAudienceType}
-      />
+      <WebGLParticleHead defaultAudienceType={currentAudienceType} />
       <section id="nextSection">
         <MarqueeTextComponent setManualAudienceType={handleAudienceChange} />
-        <DynamicParallaxContent key={currentAudienceType} audienceType={currentAudienceType} />
+        <DynamicParallaxContent key={currentAudienceType} />
       </section>
     </div>
   );

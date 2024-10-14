@@ -92,8 +92,8 @@
 }
 
 .marqueeItem:hover {
-  background-color: var(--hover-bg-color, var(--color-hover));
-  color: #000; /* Ensure text is visible on light backgrounds */
+    background-color: #333333;
+  color: #ffffff;
 }
 
 .popup {
