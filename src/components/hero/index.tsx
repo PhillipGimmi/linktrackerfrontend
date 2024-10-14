@@ -271,25 +271,28 @@ const WebGLParticleHead: React.FC<WebGLParticleHeadProps> = ({ defaultAudienceTy
 
           {currentAudience.ctaText && currentAudience.ctaUrl && (
             <motion.a
-              href={currentAudience.ctaUrl}
-              className={`${styles.ctaButton} ctaButton`}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              style={{
-                backgroundColor: 'transparent',
-                borderColor: colorToHex(currentAudience.lightColors.directionalLight1Color),
-                color: colorToHex(currentAudience.lightColors.directionalLight1Color),
-              }}
-              whileHover={{
-                boxShadow: `0 0 10px 3px ${colorToHex(currentAudience.lightColors.directionalLight1Color)}, 
-                            0 0 20px 6px ${colorToHex(currentAudience.lightColors.directionalLight1Color)}`,
-                backgroundColor: 'transparent',
-              }}
-              aria-label={currentAudience.ctaText}
+                href={currentAudience.ctaUrl}
+                className={`${styles.ctaButton} ctaButton`}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+                style={{
+                    backgroundColor: 'transparent',
+                    borderColor: colorToHex(currentAudience.lightColors.directionalLight1Color),
+                    color: colorToHex(currentAudience.lightColors.directionalLight1Color),
+                    borderWidth: '2px',  // Add border width
+                    borderStyle: 'solid',  // Ensure it's a solid border
+                }}
+                whileHover={{
+                    boxShadow: `0 0 10px 3px ${colorToHex(currentAudience.lightColors.directionalLight1Color)}, 
+                                0 0 20px 6px ${colorToHex(currentAudience.lightColors.directionalLight1Color)}`,
+                    backgroundColor: 'transparent',
+                }}
+                aria-label={currentAudience.ctaText}
             >
-              {currentAudience.ctaText}
+                {currentAudience.ctaText}
             </motion.a>
+
           )}
         </div>
       </motion.div>

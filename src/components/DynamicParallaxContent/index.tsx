@@ -85,7 +85,7 @@ const StickyImage: React.FC<StickyImageProps> = ({ imgUrl, featureText }) => {
   const { scrollYProgress } = useScroll();
 
   const y = useTransform(scrollYProgress, [0, 0.5], [100, 0]);
-  const width = useTransform(scrollYProgress, [0.5, 1], ["calc(60% - 24px)", "calc(100% - 48px)"]);
+  const width = useTransform(scrollYProgress, [0.5, 1], ["calc(50% - 24px)", "calc(100% - 48px)"]);
   const opacity = useTransform(scrollYProgress, [0, 0.2], [0, 1]);
 
   return (
