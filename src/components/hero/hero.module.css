@@ -1,0 +1,75 @@
+.heroWrapper {
+    width: 100vw;
+    height: 100vh; /* Full viewport height */
+    overflow: hidden;
+    position: relative; /* No fixed positioning */
+    top: 0;
+    left: 0;
+  }
+  
+  
+  .heroContent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    text-align: center;
+    padding: 0 10%;
+    z-index: 10;
+  }
+  
+  .ctaButton {
+    display: inline-block;
+    padding: 10px 20px;
+    color: white;
+    font-size: 1rem;
+    border: 2px solid var(--button-border-color);
+    border-radius: 5px;
+    text-decoration: none;
+    margin-top: 1rem;
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .ctaButton:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 10px var(--button-border-color), 0 0 20px var(--button-border-color);
+  }
+  
+  .remark {
+    text-align: center;
+    position: absolute;
+    z-index: 10;
+    bottom: 20px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    color: var(--button-border-color);
+    cursor: pointer;
+    transition: transform 0.3s ease, color 0.3s ease, text-shadow 0.3s ease;
+  }
+  
+  .remark:hover {
+    transform: translate(-50%, -10px);
+    color: #fff;
+    text-shadow: 0 0 10px var(--button-border-color), 0 0 20px var(--button-border-color);
+  }
+  
+  .heroContent h1 span,
+  .heroContent p span {
+    display: inline-block;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+  }
+  
+  .heroContent h1 span:hover,
+  .heroContent p span:hover {
+    color: #fff;
+    text-shadow: 0 0 10px var(--neon-glow-color), 
+                 0 0 20px var(--neon-glow-color), 
+                 0 0 30px var(--neon-glow-color), 
+                 0 0 40px var(--neon-glow-color);
+  }

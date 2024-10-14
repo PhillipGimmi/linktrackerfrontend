@@ -1,0 +1,134 @@
+/* Define variables within a component class */
+.marqueeContainer {
+    --color-text: #2a2a2a;
+    --color-bg: #f5f5f5;
+    --color-bg-accent: #e9e9e9;
+    --color-hover: #5a5a5a;
+    --size: clamp(8rem, 1rem + 20vmin, 15rem);
+    --gap: 1rem;
+    --duration: 30s;
+    --scroll-start: 0;
+    --scroll-end: calc(-100% - var(--gap));
+    margin-top: 20px;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1; /* Ensure it stays under buttons */
+}
+
+.backgroundWrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--color-bg);
+    z-index: 2; /* Higher than hero but below buttons */
+}
+
+.wrapper {
+    position: relative;
+    z-index: 3; /* Ensure the buttons are above the background */
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+    margin: auto;
+    max-width: 100vw;
+}
+
+/* Dark mode styles using media query */
+@media (prefers-color-scheme: dark) {
+  .marqueeContainer {
+    --color-text: papayawhip;
+    --color-bg: navy;
+    --color-bg-accent: #2626a0;
+  }
+}
+
+/* Marquee styles */
+.marquee {
+  display: flex;
+  overflow: hidden;
+  gap: var(--gap);
+}
+
+.marquee__group {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: var(--gap);
+  min-width: 100%;
+  animation: scroll-x var(--duration) linear infinite;
+}
+
+.marqueeReverse .marquee__group {
+  animation-direction: reverse;
+}
+
+@keyframes scroll-x {
+  from {
+    transform: translateX(var(--scroll-start));
+  }
+  to {
+    transform: translateX(var(--scroll-end));
+  }
+}
+
+.marqueeItem {
+  padding: 1rem;
+  font-size: 1.5rem;
+  background: var(--color-bg-accent);
+  border-radius: 0.5rem;
+  color: var(--color-text);
+  white-space: nowrap;
+  transition: background-color 0.3s, color 0.3s;
+  cursor: pointer;
+  position: relative; 
+  z-index: 3; /* Ensure buttons are above the background */
+}
+
+.marquee:hover .marquee__group {
+  animation-play-state: paused;
+}
+
+.marqueeItem:hover {
+  background-color: var(--hover-bg-color, var(--color-hover));
+  color: #000; /* Ensure text is visible on light backgrounds */
+}
+
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 16px;
+  background-color: var(--color-bg-accent);
+  border: 2px solid var(--color-text);
+  z-index: 10;
+  border-radius: 4px;
+}
+
+.popup:after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid var(--color-bg-accent);
+}
+
+.chevronButton {
+  font-size: 2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text);
+  padding: 0.5rem;
+  transition: transform 0.3s ease;
+}
+
+.chevronButton:hover {
+  transform: translateY(5px);
+}

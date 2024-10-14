@@ -1,12 +1,27 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Sora, Poppins } from 'next/font/google';
 import "./globals.css";
+import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
+
+const sora = Sora({
+  subsets: ['latin'],
+  variable: '--font-sora',
+});
+
+const poppins = Poppins({
+  weight: ['400', '700'],
+  subsets: ['latin'],
+  variable: '--font-poppins',
+});
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
   weight: "100 900",
 });
+
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
@@ -25,10 +40,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className={`${geistSans.variable} ${geistMono.variable} ${sora.variable} ${poppins.variable} antialiased`}>
+        <Navbar />
+        <main style={{ marginTop: '0px', overflow: 'hidden' }}>{children}</main>
+        <Footer />
       </body>
     </html>
   );

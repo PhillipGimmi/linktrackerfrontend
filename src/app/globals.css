@@ -25,3 +25,15 @@ body {
     text-wrap: balance;
   }
 }
+
+/* Ensure the WebGL section takes the full height of the viewport */
+.webgl-section {
+  height: 100vh; /* Full viewport height */
+  width: 100vw; /* Full viewport width */
+  position: relative; /* No fixed positioning */
+}
+
+/* Add margin-top to ensure the next section appears after scrolling */
+.marquee-section {
+  margin-top: 2.5rem; /* Adjust based on preference */
+}
